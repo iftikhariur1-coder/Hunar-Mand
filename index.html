@@ -36,12 +36,13 @@ footer{background:#0b3a20;color:#e5f2e9;text-align:center;padding:20px 12px;marg
    {name:"نام", cat:"پیشہ", area:"علاقہ", phone:"03XXXXXXXXX"},
    پیشہ بالکل ان میں سے ایک ہو جو نیچے CATS میں لکھے ہیں۔ */
 const WORKERS=[
-{name:"ابراھیم مستری", cat:"مستری", area:"", phone:"+923442430970"},
+{name:"ابراھیم مستری", cat:"مستری", area:"اتحاد ٹاؤن", exp:"20 سال", phone:"+923442430970"},
 {name:"Uzair Ahmed", cat:"کمپیوٹر آپریٹر", title:"Software Engineer / Digital Strategist", area:"Ittehad Town", exp:"4 سال", phone:"03186818523"},
-{name:"Muhammad Owais", cat:"اے سی ٹیکنیشن", title:"AC Technician", area:"Umar Farooq Colony", exp:"8 سال", phone:"03175836113"},
+{name:"Muhammad Owais", cat:["اے سی ٹیکنیشن","فریج ٹیکنیشن","الیکٹریشن","پلمبر"], title:"AC, Fridge, Electrical & Plumbing Technician", area:"Umar Farooq Colony", exp:"8 سال", phone:"03175836113"},
 ];
 const REGISTER_NUMBER="923115460052";
 const CATS=[["الیکٹریشن","⚡"],["پلمبر","🚰"],["مستری","🧱"],["مزدور","👷"],["بڑھئی","🪚"],["درزی","🧵"],["پینٹر","🎨"],["ویلڈر","🔥"],["اے سی ٹیکنیشن","❄️"],["فریج ٹیکنیشن","🧊"],["موٹر سائیکل مکینک","🏍️"],["کار مکینک","🚗"],["ٹائل فکسنگ","🟦"],["کمپیوٹر آپریٹر","💻"],["موبائل ریپیئرنگ","📱"],["حجام","✂️"],["گھریلو ملازمین","🏠"],["ڈرائیور","🚘"],["ٹیوشن ٹیچر","📚"],["دیگر ہنر","🛠️"]];
+const has=(w,c)=>[].concat(w.cat).includes(c);
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const norm=s=>String(s||"").toLowerCase().replace(/[\u064B-\u065F\u0670]/g,"").replace(/ي|ى/g,"ی").replace(/ك/g,"ک").replace(/ه|ة/g,"ہ").trim();
@@ -49,11 +50,11 @@ function phone(p){let d=String(p).replace(/\D/g,"");if(d.startsWith("0092"))d=d.
 const MSG="السلام علیکم! مجھے آپ کا رابطہ اتحاد ٹاؤن ہنرمند افراد ڈائریکٹری سے ملا ہے۔ مجھے آپ کی سروس درکار ہے۔ براہ کرم رابطہ کریں۔";
 const REG="السلام علیکم!\n\nمیں اتحاد ٹاؤن ہنرمند افراد ڈائریکٹری میں اپنا اندراج کروانا چاہتا ہوں۔\n\nنام:\nپیشہ / ہنر:\nعلاقہ / محلہ:\nواٹس ایپ نمبر:\nکام کا تجربہ:\n\nمیں اپنی فراہم کردہ معلومات اور رابطہ نمبر ویب سائٹ پر عوامی رابطے کے لیے شائع کرنے کی اجازت دیتا ہوں۔\n\nشکریہ۔";
 $("reg").href=`https://wa.me/${REGISTER_NUMBER}?text=${encodeURIComponent(REG)}`;$("ft").href=`https://wa.me/${REGISTER_NUMBER}`;
-const card=w=>`<div class="card"><b dir="auto">${esc(w.name)}</b><p dir="auto">${esc(w.title||w.cat)}</p><p dir="auto">${w.area?`📍 ${esc(w.area)}`:""}${w.exp?` · تجربہ: ${esc(w.exp)}`:""}</p><a class="wa" href="https://wa.me/${phone(w.phone)}?text=${encodeURIComponent(MSG)}" target="_blank" rel="noopener">واٹس ایپ پر پیغام بھیجیں</a></div>`;
-$("cats").innerHTML=CATS.map(([n,i])=>`<button class="cat" data-c="${esc(n)}"><span>${i}</span>${n}<small>${WORKERS.filter(w=>w.cat===n).length} ہنرمند</small></button>`).join("");
+const card=w=>`<div class="card"><b dir="auto">${esc(w.name)}</b><p dir="auto">${esc(w.title||[].concat(w.cat).join("، "))}</p><p dir="auto">${w.area?`📍 ${esc(w.area)}`:""}${w.exp?` · تجربہ: ${esc(w.exp)}`:""}</p><a class="wa" href="https://wa.me/${phone(w.phone)}?text=${encodeURIComponent(MSG)}" target="_blank" rel="noopener">واٹس ایپ پر پیغام بھیجیں</a></div>`;
+$("cats").innerHTML=CATS.map(([n,i])=>`<button class="cat" data-c="${esc(n)}"><span>${i}</span>${n}<small>${WORKERS.filter(w=>has(w,n)).length} ہنرمند</small></button>`).join("");
 function show(title,list,msg){$("catsBox").hidden=true;$("out").hidden=false;$("ttl").textContent=title;$("list").innerHTML=list.map(card).join("");$("empty").hidden=!!list.length;$("empty").textContent=msg;window.scrollTo({top:document.querySelector(".reg").offsetTop,behavior:"smooth"})}
 function home(){$("q").value="";$("out").hidden=true;$("catsBox").hidden=false}
-$("cats").onclick=e=>{const b=e.target.closest(".cat");if(!b)return;const c=b.dataset.c;show(c,WORKERS.filter(w=>w.cat===c),"اس زمرے میں ابھی کوئی ہنرمند شامل نہیں۔ اپنا اندراج کروانے کے لیے اوپر والا بٹن دبائیں۔")};
+$("cats").onclick=e=>{const b=e.target.closest(".cat");if(!b)return;const c=b.dataset.c;show(c,WORKERS.filter(w=>has(w,c)),"اس زمرے میں ابھی کوئی ہنرمند شامل نہیں۔ اپنا اندراج کروانے کے لیے اوپر والا بٹن دبائیں۔")};
 $("back").onclick=home;
 $("q").oninput=()=>{const q=norm($("q").value);if(!q){home();return}
  show("تلاش کے نتائج",WORKERS.filter(w=>norm([w.name,w.cat,w.title,w.area].join(" ")).includes(q)),"کوئی ہنرمند نہیں ملا۔ کسی دوسرے لفظ سے تلاش کریں۔")};
