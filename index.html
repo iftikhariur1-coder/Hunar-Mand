@@ -63,13 +63,14 @@ const RAW=[
 {name:"Javed Khan", cat:["الیکٹریشن","سولر سروس"], title:"Electrician + Solar Installation", area:"Gulshan-e-Ghazi, Hazara Chowk, Baldia Town, Karachi", exp:"7 سال", phone:"03404972074"},
 {name:"عادل", cat:["سولر سروس","الیکٹریشن","درزی"], title:"سولر وائرنگ / الیکٹریکل / درزی", area:"اتحاد ٹاؤن", exp:"4 سال", phone:"03402478497"},
 {name:"نوید کیانی", cat:"باڈی میکر", title:"باڈی میکر", area:"نواب کالونی، 20 نمبر سٹاپ", phone:"03112034387"},
+{name:"ڈاکٹر مشتاق", cat:"ڈاکٹر", title:"ڈاکٹر", area:"سعید آباد، بلدیہ ٹاؤن", exp:"13 سال", phone:"03452695734"},
 {name:"جمشید خان", cat:["اے سی ٹیکنیشن","فریج ٹیکنیشن"], title:"AC اور فریج ٹیکنیشن", area:"اتحاد ٹاؤن", phone:"03474225170"},
 {name:"بابر خان", cat:["الیکٹریشن","سولر سروس","دیگر ہنر"], title:"الیکٹریشن / سولر انسٹالیشن سروس / AC/DC مشینری ریپیئرنگ", area:"اتحاد ٹاؤن", exp:"20 سال", phone:"+923122595218"},
 ];
 /* غلط یا نامکمل نمبر والے ہنرمند عوام کو نظر نہیں آتے جب تک نمبر درست نہ ہو */
 const WORKERS=RAW.filter(w=>/^923\d{9}$/.test(phone(w.phone)));
 const REGISTER_NUMBER="923115460052";
-const CATS=[["الیکٹریشن","⚡"],["سولر سروس","☀️"],["پلمبر","🚰"],["مستری","🧱"],["مزدور","👷"],["بڑھئی","🪚"],["درزی","🧵"],["پینٹر","🎨"],["ویلڈر","🔥"],["اے سی ٹیکنیشن","❄️"],["فریج ٹیکنیشن","🧊"],["موٹر سائیکل مکینک","🏍️"],["کار مکینک","🚗"],["جنریٹر مکینک","⚙️"],["باڈی میکر","🚛"],["ٹائل فکسنگ","🟦"],["کمپیوٹر آپریٹر","💻"],["موبائل ریپیئرنگ","📱"],["حجام","✂️"],["گھریلو ملازمین","🏠"],["ڈرائیور","🚘"],["ٹیوشن ٹیچر","📚"],["ماربل ورک","🪨"],["ایلومینیم اور شیشہ","🪟"],["انجینئر / آرکیٹیکٹ","📐"],["دیگر ہنر","🛠️"]];
+const CATS=[["الیکٹریشن","⚡"],["سولر سروس","☀️"],["پلمبر","🚰"],["مستری","🧱"],["مزدور","👷"],["بڑھئی","🪚"],["درزی","🧵"],["پینٹر","🎨"],["ویلڈر","🔥"],["اے سی ٹیکنیشن","❄️"],["فریج ٹیکنیشن","🧊"],["موٹر سائیکل مکینک","🏍️"],["کار مکینک","🚗"],["جنریٹر مکینک","⚙️"],["باڈی میکر","🚛"],["ٹائل فکسنگ","🟦"],["کمپیوٹر آپریٹر","💻"],["موبائل ریپیئرنگ","📱"],["حجام","✂️"],["گھریلو ملازمین","🏠"],["ڈرائیور","🚘"],["ٹیوشن ٹیچر","📚"],["ماربل ورک","🪨"],["ایلومینیم اور شیشہ","🪟"],["انجینئر / آرکیٹیکٹ","📐"],["ڈاکٹر","🩺"],["دیگر ہنر","🛠️"]];
 const has=(w,c)=>[].concat(w.cat).includes(c);
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -79,7 +80,7 @@ const MSG="السلام علیکم! مجھے آپ کا رابطہ اتحاد ٹ�
 const REG="السلام علیکم!\n\nمیں اتحاد ٹاؤن ہنرمند افراد ڈائریکٹری میں اپنا اندراج کروانا چاہتا ہوں۔\n\nنام:\nپیشہ / ہنر:\nعلاقہ / محلہ:\nواٹس ایپ نمبر:\nکام کا تجربہ:\n\nمیں اپنی فراہم کردہ معلومات اور رابطہ نمبر ویب سائٹ پر عوامی رابطے کے لیے شائع کرنے کی اجازت دیتا ہوں۔\n\nشکریہ۔";
 $("reg").href=`https://wa.me/${REGISTER_NUMBER}?text=${encodeURIComponent(REG)}`;$("ft").href=`https://wa.me/${REGISTER_NUMBER}`;
 $("total").textContent=WORKERS.length;
-const card=w=>`<div class="card"><b dir="auto">${esc(w.name)}</b><p dir="auto">${esc(w.title||[].concat(w.cat).join("، "))}</p><p dir="auto">${w.area?`📍 ${esc(w.area)}`:""}${w.exp?` · تجربہ: ${esc(w.exp)}`:""}</p>${w.note?`<p dir="auto">🎓 ${esc(w.note)}</p>`:""}<a class="wa" href="https://wa.me/${phone(w.phone)}?text=${encodeURIComponent(MSG)}" target="_blank" rel="noopener">واٹس ایپ پر پیغام بھیجیں</a></div>`;
+const card=w=>`<div class="card"><b dir="auto" translate="no" class="notranslate">${esc(w.name)}</b><p dir="auto">${esc(w.title||[].concat(w.cat).join("، "))}</p><p dir="auto">${w.area?`📍 ${esc(w.area)}`:""}${w.exp?` · تجربہ: ${esc(w.exp)}`:""}</p>${w.note?`<p dir="auto">🎓 ${esc(w.note)}</p>`:""}<a class="wa" href="https://wa.me/${phone(w.phone)}?text=${encodeURIComponent(MSG)}" target="_blank" rel="noopener">واٹس ایپ پر پیغام بھیجیں</a></div>`;
 $("cats").innerHTML=CATS.map(([n,i])=>`<button class="cat" data-c="${esc(n)}"><span>${i}</span>${n}<small>${WORKERS.filter(w=>has(w,n)).length} ہنرمند</small></button>`).join("");
 function show(title,list,msg){$("catsBox").hidden=true;$("out").hidden=false;$("ttl").textContent=title;$("list").innerHTML=list.map(card).join("");$("empty").hidden=!!list.length;$("empty").textContent=msg;window.scrollTo({top:document.querySelector(".reg").offsetTop,behavior:"smooth"})}
 function home(){$("q").value="";$("out").hidden=true;$("catsBox").hidden=false}
