@@ -1,5 +1,6 @@
 <!doctype html><html lang="ur" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0e5a31"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
 <title>اتحاد ٹاؤن ہنرمند افراد ڈائریکٹری</title>
 <style>
 :root{--g:#0e5a31;--g2:#2f8f4e;--soft:#e9f4ec;--line:#d2e3d7;--wa:#1faa59}
@@ -75,13 +76,14 @@ const RAW=[
 {name:"جمال احمد", cat:["الیکٹریشن","دیگر ہنر"], title:"سیکورٹی گارڈ / الیکٹریشن", area:"اتحاد ٹاؤن", phone:"03131231084"},
 {name:"Mohammed Talib", cat:["سولر سروس","الیکٹریشن"], title:"Solar & Electrician", area:"Baldia, Ittehad Town, Gali No. 20, Umar Farooq Masjid", exp:"12 سال", phone:"03152728340"},
 {name:"محمد عمیر", cat:"ویلڈر", title:"ویلڈر", area:"بلدیہ ٹاؤن", phone:"03701026721"},
+{name:"مروان", cat:"ڈرائیور / ٹرانسپورٹ", title:"مزدا (10 فٹ لمبا، 5 فٹ چوڑا) کرایہ پر دستیاب", area:"بلدیہ ٹاؤن، سیکٹر 12-E", phone:"03482342322"},
 {name:"جمشید خان", cat:["اے سی ٹیکنیشن","فریج ٹیکنیشن"], title:"AC اور فریج ٹیکنیشن", area:"اتحاد ٹاؤن", phone:"03474225170"},
 {name:"بابر خان", cat:["الیکٹریشن","سولر سروس","دیگر ہنر"], title:"الیکٹریشن / سولر انسٹالیشن سروس / AC/DC مشینری ریپیئرنگ", area:"اتحاد ٹاؤن", exp:"20 سال", phone:"+923122595218"},
 ];
 /* غلط یا نامکمل نمبر والے ہنرمند عوام کو نظر نہیں آتے جب تک نمبر درست نہ ہو */
 const WORKERS=RAW.filter(w=>/^923\d{9}$/.test(phone(w.phone)));
 const REGISTER_NUMBER="923115460052";
-const CATS=[["الیکٹریشن","⚡"],["سولر سروس","☀️"],["پلمبر","🚰"],["مستری","🧱"],["مزدور","👷"],["بڑھئی","🪚"],["درزی","🧵"],["پینٹر","🎨"],["ویلڈر","🔥"],["اے سی ٹیکنیشن","❄️"],["فریج ٹیکنیشن","🧊"],["موٹر سائیکل مکینک","🏍️"],["کار مکینک","🚗"],["جنریٹر مکینک","⚙️"],["باڈی میکر","🚛"],["ٹائل فکسنگ","🟦"],["کمپیوٹر آپریٹر","💻"],["موبائل ریپیئرنگ","📱"],["حجام","✂️"],["گھریلو ملازمین","🏠"],["ڈرائیور","🚘"],["ٹیوشن ٹیچر","📚"],["ماربل ورک","🪨"],["CCTV انسٹالیشن","📹"],["ایلومینیم اور شیشہ","🪟"],["انجینئر / آرکیٹیکٹ","📐"],["ڈاکٹر / نرس","🩺"],["دیگر ہنر","🛠️"]];
+const CATS=[["الیکٹریشن","⚡"],["سولر سروس","☀️"],["پلمبر","🚰"],["مستری","🧱"],["مزدور","👷"],["بڑھئی","🪚"],["درزی","🧵"],["پینٹر","🎨"],["ویلڈر","🔥"],["اے سی ٹیکنیشن","❄️"],["فریج ٹیکنیشن","🧊"],["موٹر سائیکل مکینک","🏍️"],["کار مکینک","🚗"],["جنریٹر مکینک","⚙️"],["باڈی میکر","🚛"],["ٹائل فکسنگ","🟦"],["کمپیوٹر آپریٹر","💻"],["موبائل ریپیئرنگ","📱"],["حجام","✂️"],["گھریلو ملازمین","🏠"],["ڈرائیور / ٹرانسپورٹ","🚚"],["ٹیوشن ٹیچر","📚"],["ماربل ورک","🪨"],["CCTV انسٹالیشن","📹"],["ایلومینیم اور شیشہ","🪟"],["انجینئر / آرکیٹیکٹ","📐"],["ڈاکٹر / نرس","🩺"],["دیگر ہنر","🛠️"]];
 const has=(w,c)=>[].concat(w.cat).includes(c);
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -99,4 +101,5 @@ $("cats").onclick=e=>{const b=e.target.closest(".cat");if(!b)return;const c=b.da
 $("back").onclick=home;
 $("q").oninput=()=>{const q=norm($("q").value);if(!q){home();return}
  show("تلاش کے نتائج",WORKERS.filter(w=>norm([w.name,w.cat,w.title,w.area].join(" ")).includes(q)),"کوئی ہنرمند نہیں ملا۔ کسی دوسرے لفظ سے تلاش کریں۔")};
+if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script></body></html>
