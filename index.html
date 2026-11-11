@@ -102,5 +102,5 @@ $("cats").onclick=e=>{const b=e.target.closest(".cat");if(!b)return;const c=b.da
 $("back").onclick=home;
 $("q").oninput=()=>{const q=norm($("q").value);if(!q){home();return}
  show("تلاش کے نتائج",WORKERS.filter(w=>norm([w.name,w.cat,w.title,w.area].join(" ")).includes(q)),"کوئی ہنرمند نہیں ملا۔ کسی دوسرے لفظ سے تلاش کریں۔")};
-if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
+if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js?v=2").catch(()=>{});
 </script></body></html>
