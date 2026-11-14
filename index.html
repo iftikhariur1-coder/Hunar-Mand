@@ -10,6 +10,12 @@
 .reg{background:var(--g);color:#fff;text-align:center;padding:16px 12px}
 .reg a{display:inline-block;background:#fff;color:var(--g);font-weight:700;font-size:20px;padding:8px 26px;border-radius:14px;text-decoration:none}
 .total{background:#fff;border-bottom:4px solid var(--g2);text-align:center;padding:10px 12px;color:var(--g);font-size:19px}.total b{font-size:34px;margin:0 6px;vertical-align:middle}
+.pop{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.pop.on{display:flex}
+.pop .box{background:#fff;border-radius:20px;max-width:380px;width:100%;padding:24px 20px 20px;text-align:center;position:relative;border-top:8px solid var(--g2);box-shadow:0 10px 40px #0006}
+.pop .ico{font-size:46px;line-height:1}.pop p{margin:8px 0 14px;font-size:20px;font-weight:700;color:var(--g)}
+.pop .x{position:absolute;top:6px;left:8px;background:none;border:0;font-size:30px;line-height:1;cursor:pointer;color:#5b6b60}
+.pop .go{display:block;background:var(--g);color:#fff;text-decoration:none;font-weight:700;font-size:19px;padding:10px;border-radius:14px}
+.pop .later{background:none;border:0;color:#5b6b60;font:inherit;margin-top:8px;cursor:pointer;text-decoration:underline}
 .reg p{margin:4px 0 0;font-size:15px}
 #q{width:100%;margin:18px 0 6px;padding:12px 16px;font:inherit;font-size:18px;border:2px solid var(--g2);border-radius:14px}
 h2{color:var(--g);font-size:22px;margin:16px 0 8px}
@@ -34,6 +40,11 @@ footer{background:#0b3a20;color:#e5f2e9;text-align:center;padding:20px 12px;marg
 <div id="out" hidden><button class="back" id="back">← تمام پیشے</button><h2 id="ttl"></h2><div class="grid" id="list"></div><div class="empty" id="empty" hidden></div></div>
 </main>
 <footer>اتحاد ٹاؤن ہنرمند افراد ڈائریکٹری — اتحاد ٹاؤن، UC-2، کراچی<br>یہ ایک مفت کمیونٹی خدمت ہے۔ ہنرمند کی سروس کے معیار کی ذمہ داری ڈائریکٹری پر نہیں۔ معلومات ہنرمند کی اجازت سے شائع کی جاتی ہیں؛ درستی یا حذف کروانے کے لیے <a href="https://www.facebook.com/share/1JvmwsqCyj/" target="_blank" rel="noopener">ہمارا فیس بک پیج</a> · <a id="ft" href="#" target="_blank" rel="noopener">واٹس ایپ پر رابطہ کریں</a>۔</footer>
+<div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="ہنرمند رجسٹریشن"><div class="box">
+<button class="x" id="popX" aria-label="بند کریں">×</button><div class="ico">🛠️</div>
+<p>اگر آپ ہنرمند ہیں تو رجسٹریشن کا بٹن دبائیں۔ اس کے کوئی چارجز نہیں۔</p>
+<a class="go" id="popGo" href="#" target="_blank" rel="noopener">اپنا ہنر رجسٹر کروائیں</a>
+<button class="later" id="popLater">بعد میں</button></div></div>
 <script>
 /* ===== ہنرمندوں کی فہرست — نیا ہنرمند شامل کرنے کے لیے نیچے ایک نئی لائن بڑھائیں =====
    {name:"نام", cat:"پیشہ", area:"علاقہ", phone:"03XXXXXXXXX"},
@@ -108,4 +119,10 @@ $("back").onclick=home;
 $("q").oninput=()=>{const q=norm($("q").value);if(!q){home();return}
  show("تلاش کے نتائج",WORKERS.filter(w=>norm([w.name,w.cat,w.title,w.area].join(" ")).includes(q)),"کوئی ہنرمند نہیں ملا۔ کسی دوسرے لفظ سے تلاش کریں۔")};
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
+(()=>{const pop=$("pop");$("popGo").href=$("reg").href;
+const shut=()=>{pop.classList.remove("on");try{sessionStorage.setItem("popSeen","1")}catch(e){}};
+$("popX").onclick=shut;$("popLater").onclick=shut;$("popGo").addEventListener("click",shut);
+pop.onclick=e=>{if(e.target===pop)shut()};document.addEventListener("keydown",e=>{if(e.key==="Escape")shut()});
+let seen=false;try{seen=!!sessionStorage.getItem("popSeen")}catch(e){}
+if(!seen)setTimeout(()=>pop.classList.add("on"),600)})();
 </script></body></html>
