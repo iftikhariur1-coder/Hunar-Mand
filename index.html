@@ -95,13 +95,14 @@ const RAW=[
 {name:"حیدر", cat:["الیکٹریشن","پینٹر"], title:"الیکٹریشن، پینٹر", area:"9-C بلدیہ ٹاؤن", exp:"الیکٹریشن 10 سال؛ پینٹر 13 سال", phone:"03122447001"},
 {name:"Shahid Malang", cat:["الیکٹریشن","سولر سروس"], title:"Electrician — Single/2/3 Phase, Panel Control & Solar Installation", area:"Qaim Khani Colony", exp:"16 سال", phone:"03453451650"},
 {name:"حفیظ", cat:"ڈرائیور / ٹرانسپورٹ", title:"ڈرائیور (LTV)", area:"محمودیہ چوک", exp:"15 سال", phone:"03083801448"},
+{name:"ماسٹر مجاہد خان", cat:"مارشل آرٹس", title:"مارشل آرٹس / کنگفو ٹیچر", area:"مفتی محمود چوک، اتحاد ٹاؤن، کراچی غربی", exp:"17 سال", phone:"03142998018"},
 {name:"جمشید خان", cat:["اے سی ٹیکنیشن","فریج ٹیکنیشن"], title:"AC اور فریج ٹیکنیشن", area:"اتحاد ٹاؤن", phone:"03474225170"},
 {name:"بابر خان", cat:["الیکٹریشن","سولر سروس","دیگر ہنر"], title:"الیکٹریشن / سولر انسٹالیشن سروس / AC/DC مشینری ریپیئرنگ", area:"اتحاد ٹاؤن", exp:"20 سال", phone:"+923122595218"},
 ];
 /* غلط یا نامکمل نمبر والے ہنرمند عوام کو نظر نہیں آتے جب تک نمبر درست نہ ہو */
 const WORKERS=RAW.filter(w=>/^923\d{9}$/.test(phone(w.phone)));
 const REGISTER_NUMBER="923115460052";
-const CATS=[["الیکٹریشن","⚡"],["سولر سروس","☀️"],["پلمبر","🚰"],["مستری","🧱"],["مزدور","👷"],["بڑھئی","🪚"],["درزی","🧵"],["پینٹر","🎨"],["ویلڈر","🔥"],["اے سی ٹیکنیشن","❄️"],["فریج ٹیکنیشن","🧊"],["موٹر سائیکل مکینک","🏍️"],["کار مکینک","🚗"],["جنریٹر مکینک","⚙️"],["باڈی میکر","🚛"],["ٹائل فکسنگ","🟦"],["کمپیوٹر آپریٹر","💻"],["موبائل ریپیئرنگ","📱"],["حجام","✂️"],["گھریلو ملازمین","🏠"],["ڈرائیور / ٹرانسپورٹ","🚚"],["ٹیوشن ٹیچر","📚"],["ماربل ورک","🪨"],["CCTV انسٹالیشن","📹"],["ایلومینیم اور شیشہ","🪟"],["انجینئر / آرکیٹیکٹ","📐"],["ڈاکٹر / نرس","🩺"],["دیگر ہنر","🛠️"]];
+const CATS=[["الیکٹریشن","⚡"],["سولر سروس","☀️"],["پلمبر","🚰"],["مستری","🧱"],["مزدور","👷"],["بڑھئی","🪚"],["درزی","🧵"],["پینٹر","🎨"],["ویلڈر","🔥"],["اے سی ٹیکنیشن","❄️"],["فریج ٹیکنیشن","🧊"],["موٹر سائیکل مکینک","🏍️"],["کار مکینک","🚗"],["جنریٹر مکینک","⚙️"],["باڈی میکر","🚛"],["ٹائل فکسنگ","🟦"],["کمپیوٹر آپریٹر","💻"],["موبائل ریپیئرنگ","📱"],["حجام","✂️"],["گھریلو ملازمین","🏠"],["ڈرائیور / ٹرانسپورٹ","🚚"],["ٹیوشن ٹیچر","📚"],["ماربل ورک","🪨"],["CCTV انسٹالیشن","📹"],["ایلومینیم اور شیشہ","🪟"],["انجینئر / آرکیٹیکٹ","📐"],["ڈاکٹر / نرس","🩺"],["مارشل آرٹس","🥋"],["دیگر ہنر","🛠️"]];
 const has=(w,c)=>[].concat(w.cat).includes(c);
 const $=i=>document.getElementById(i);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -112,7 +113,7 @@ const REG="السلام علیکم!\n\nمیں اتحاد ٹاؤن ہنرمند �
 $("reg").href=`https://wa.me/${REGISTER_NUMBER}?text=${encodeURIComponent(REG)}`;$("ft").href=`https://wa.me/${REGISTER_NUMBER}`;
 $("total").textContent=WORKERS.length;
 const card=w=>`<div class="card"><b dir="auto" translate="no" class="notranslate">${esc(w.name)}</b><p dir="auto">${esc(w.title||[].concat(w.cat).join("، "))}</p><p dir="auto">${w.area?`📍 ${esc(w.area)}`:""}${w.exp?` · تجربہ: ${esc(w.exp)}`:""}</p>${w.note?`<p dir="auto">🎓 ${esc(w.note)}</p>`:""}<a class="wa" href="https://wa.me/${phone(w.phone)}?text=${encodeURIComponent(MSG)}" target="_blank" rel="noopener">واٹس ایپ پر پیغام بھیجیں</a></div>`;
-$("cats").innerHTML=CATS.map(([n,i])=>`<button class="cat" data-c="${esc(n)}"><span>${i}</span>${n}<small>${WORKERS.filter(w=>has(w,n)).length} ہنرمند</small></button>`).join("");
+$("cats").innerHTML=CATS.filter(([n])=>WORKERS.some(w=>has(w,n))).map(([n,i])=>`<button class="cat" data-c="${esc(n)}"><span>${i}</span>${n}<small>${WORKERS.filter(w=>has(w,n)).length} ہنرمند</small></button>`).join("");
 function show(title,list,msg){$("catsBox").hidden=true;$("out").hidden=false;$("ttl").textContent=title;$("list").innerHTML=list.map(card).join("");$("empty").hidden=!!list.length;$("empty").textContent=msg;window.scrollTo({top:document.querySelector(".reg").offsetTop,behavior:"smooth"})}
 function home(){$("q").value="";$("out").hidden=true;$("catsBox").hidden=false}
 $("cats").onclick=e=>{const b=e.target.closest(".cat");if(!b)return;const c=b.dataset.c;show(c,WORKERS.filter(w=>has(w,c)),"اس زمرے میں ابھی کوئی ہنرمند شامل نہیں۔ اپنا اندراج کروانے کے لیے اوپر والا بٹن دبائیں۔")};
